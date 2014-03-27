@@ -5,6 +5,7 @@ from definitions import *
 from pulseDegree import PulToDeg,DegToPul
 from indicatorLight import lightOn,lightOff
 from inputSampling import sampleUser, sampleHeat, sampleTouch
+from beeper import beep
    
 
 def control (servo):
@@ -26,9 +27,9 @@ def control (servo):
       touchInput = sampleTouch(touchInput)
       if (touchInput > TOUCH_THRESH):
         print "too much pressure!"
-        incrementMotor(5, userInput[5])
-      else:
         beep(SOUND_OUT, 3)
+      else:
+        incrementMotor(5, userInput[5])
   lightOff(LIGHT_OUT)
 
 def initGPIO():
