@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 import sys
-from numpy import arange
+
 numTimes = 100
 speed = 0.001
 soundPort = int(sys.argv[1])

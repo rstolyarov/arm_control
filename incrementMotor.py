@@ -2,8 +2,8 @@ import threading
 from definitions import *
 from positionFeedback import getCurrentPosition[i]
 
-def incrementMotor(servo, i, intensity, factor):
-  def threadIncrementMotor(servo, i, intensity,factor):
+def incrMotor(servo, i, intensity, factor):
+  def threadIncrMotor(servo, i, intensity,factor):
     motor_id = 0
     curPos = 0
   
@@ -29,5 +29,5 @@ def incrementMotor(servo, i, intensity, factor):
     if i==2 or i==3: wristPos = newPos 
     if i==4 or i==5: elbowPos = newPos
     
-  t = threading.Thread(target=threadIncrementMotor, args=(servo,i,intensity,factor))
+  t = threading.Thread(target=threadIncrMotor, args=(servo,i,intensity,factor))
   t.start()

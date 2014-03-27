@@ -10,9 +10,12 @@ from inputSampling import sampleUser, sampleHeat, sampleTouch
 def control (servo):
   lightOn(LIGHT_OUT)
   print "running program"
+  userInput = [0,0,0,0,0,0]
+  heatInput = 0
+  touchInput = 0
   while(True):
-    userInput = sampleUser()
-    heatInput = sampleHeat()
+    userInput = sampleUser(userInput)
+    heatInput = sampleHeat(heatInput)
     if (heatInput > HEAT_THRESH):
       print "too much heat!"
       beep(SOUND_OUT, 3)
@@ -20,7 +23,7 @@ def control (servo):
       intensity = userInput[i]
       incrementMotor(servo, i, intensity, MUSCLE_FACTOR)
     if userInput[5]:
-      touchInput = sampleTouch()
+      touchInput = sampleTouch(touchInput)
       if (touchInput > TOUCH_THRESH):
         print "too much pressure!"
         incrementMotor(5, userInput[5])
