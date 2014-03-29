@@ -1,11 +1,11 @@
-import scipy.signal as sig
 from RPIO import PWM
 import RPi.GPIO as GPIO
 from definitions import *
-from pulseDegree import PulToDeg,DegToPul
-from indicatorLight import lightOn,lightOff
-from inputSampling import sampleUser, sampleHeat, sampleTouch
-from beeper import beep
+from pulseDegree import *
+from indicatorLight import *
+from inputSampling import *
+from beeper import *
+from incrementMotor import *
    
 
 def control (servo):
@@ -37,22 +37,24 @@ def control (servo):
       clawPosition = incrementMotor(servo, "CLAW", userInput[2], clawPosition, TEST)
   lightOff(LIGHT_OUT, TEST)
 
-def initServoPositions(servo):
-  servo.set_servo(CLAW_OUT, INIT_CLAW_ANGLE)
-  servo.set_servo(WRIST_OUT, INIT_WRIST_ANGLE)
-  servo.set_servo(ELBOW_OUT, INIT_ELBOW_ANGLE)
+def initServoPositions(servo, test):
+  print "Initialized servo positions"
+  if test == 0:
+    servo.set_servo(CLAW_OUT, INIT_CLAW_POSITION)
+    servo.set_servo(WRIST_OUT, INIT_WRIST_POSITION)
+    servo.set_servo(ELBOW_OUT, INIT_ELBOW_POSITION)
 
 def initGPIO():
   GPIO.setmode(GPIO.BOARD)
-  for outpin in outpins:
+  for outpin in OUTPINS:
     print "setting up pin "+str(outpin)
     GPIO.setup(outpin, GPIO.OUT)
-  for inpin in inpins:
+  for inpin in INPINS:
     print "setting up pin "+str(inpin)
     GPIO.setup(inpin, GPIO.IN)
   servo = PWM.Servo()
   return servo  
 
 servo = initGPIO()
-initServoPositions(servo)
+initServoPositions(servo, TEST)
 control(servo)

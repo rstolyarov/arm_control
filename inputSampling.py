@@ -1,7 +1,6 @@
 import scipy.signal as sig
-from defintions import *
+from definitions import *
 import time
-from readADC import *
 from signalProcessing import *
 from read_data import *
 
@@ -34,12 +33,12 @@ def sampleUser(old_reads, test=0):
 def sampleHeat(old_read, test=0):
   if test == 0:
 	raw_data = readChannel(ANALOG_TEMP_IN)
-	new_read = convertTemp(data,ROUND)
+	new_read = convertTemp(raw_data,ROUND)
   	return new_read
-  else
+  else:
   	new_read = int(raw_input("Enter heat input."));
   	print "Heat sampled:",new_read
-    return new_read
+        return new_read
 
 def sampleTouch(old_read, test=0):
   if test == 0:

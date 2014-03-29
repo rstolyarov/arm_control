@@ -1,8 +1,7 @@
-#!/usr/bin/env python
 import time
 import os
 import RPi.GPIO as GPIO
-from incrementMotor import incrMotor
+from incrementMotor import *
 from definitions import *
  
 GPIO.setmode(GPIO.BCM)
