@@ -1,6 +1,3 @@
-clawPos = None
-wristPos = None
-elbowPos = None
 
 def getCurrentPosition(i):
   if i==0 or i==1: 

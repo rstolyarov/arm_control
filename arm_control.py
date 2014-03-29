@@ -9,28 +9,38 @@ from beeper import beep
    
 
 def control (servo):
-  lightOn(LIGHT_OUT)
+  lightOn(LIGHT_OUT, TEST)
   print "running program"
-  userInput = [0,0,0,0,0,0]
+  userInput = [0,0,0]
   heatInput = 0
   touchInput = 0
+  clawPosition = INIT_CLAW_POSITION
+  wristPosition = INIT_WRIST_POSITION
+  elbowPosition = INIT_ELBOW_POSITION
+
   while(True):
-    userInput = sampleUser(userInput)
-    heatInput = sampleHeat(heatInput)
+    userInput = sampleUser(userInput,TEST)
+    heatInput = sampleHeat(heatInput,TEST)
+    touchInput = sampleTouch(touchInput, TEST)
+
     if (heatInput > HEAT_THRESH):
       print "too much heat!"
-      beep(SOUND_OUT, 3)
-    for i in range(0,5):
-      intensity = userInput[i]
-      incrementMotor(servo, i, intensity, MUSCLE_FACTOR)
-    if userInput[5]:
-      touchInput = sampleTouch(touchInput)
-      if (touchInput > TOUCH_THRESH):
-        print "too much pressure!"
-        beep(SOUND_OUT, 3)
-      else:
-        incrementMotor(5, userInput[5])
-  lightOff(LIGHT_OUT)
+      beep(SOUND_OUT, 3, TEST)
+    
+    elbowPosition = incrementMotor(servo, "ELBOW", userInput[0], elbowPosition, TEST)
+    wristPosition = incrementMotor(servo, "WRIST", userInput[1], wristPosition, TEST)
+    
+    if touchInput > TOUCH_THRESH and userInput[2] > 0:
+      print "too much pressure!"
+      beep(SOUND_OUT, 3, TEST)
+    else:
+      clawPosition = incrementMotor(servo, "CLAW", userInput[2], clawPosition, TEST)
+  lightOff(LIGHT_OUT, TEST)
+
+def initServoPositions(servo):
+  servo.set_servo(CLAW_OUT, INIT_CLAW_ANGLE)
+  servo.set_servo(WRIST_OUT, INIT_WRIST_ANGLE)
+  servo.set_servo(ELBOW_OUT, INIT_ELBOW_ANGLE)
 
 def initGPIO():
   GPIO.setmode(GPIO.BOARD)
@@ -44,4 +54,5 @@ def initGPIO():
   return servo  
 
 servo = initGPIO()
+initServoPositions(servo)
 control(servo)

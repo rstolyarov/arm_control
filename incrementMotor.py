@@ -2,32 +2,22 @@ import threading
 from definitions import *
 from positionFeedback import getCurrentPosition[i]
 
-def incrMotor(servo, i, intensity, factor):
-  def threadIncrMotor(servo, i, intensity,factor):
+def incrementMotor(servo, muscle, intensity, currentPosition, test=0):
+  def threadIncrementMotor(servo, muscle, intensity, currentPosition, test=0):
     motor_id = 0
-    curPos = 0
-  
-    if i==0 or i==1: 
-      motor_id = CLAW_OUT 
-    if i==2 or i==3: 
+    if muscle == "CLAW":
+      motor_id = CLAW_OUT
+    else if muscle == "WRIST":
       motor_id = WRIST_OUT
-    if i==4 or i==5: 
+    else if muscle == "ELBOW":
       motor_id = ELBOW_OUT
+    increment = intensity * MUSCLE_FACTOR
+    newPosition = currentPosition + increment
+    print "Rotating", muscle, "motor to position", newPosition
+    if test == 0:
+      servo.set_servo(motor_id, newPosition)
+    return newPosition
 
-    curPos = getCurrentPosition(i)
-
-    increment = intensity * factor
-    newPos = 0
-  
-    if (i%2==0): 
-      newPos = curPos + increment
-    else: 
-      newPos = curPos - increment
-    servo.set_servo(motor_id, newPos)
-  
-    if i==0 or i==1: clawPos = newPos 
-    if i==2 or i==3: wristPos = newPos 
-    if i==4 or i==5: elbowPos = newPos
     
-  t = threading.Thread(target=threadIncrMotor, args=(servo,i,intensity,factor))
+  t = threading.Thread(target=threadIncrMotor, args=(servo, muscle, intensity, currentPosition, test))
   t.start()

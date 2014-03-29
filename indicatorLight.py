@@ -1,7 +1,9 @@
-def lightOn(LIGHT_OUT):
+def lightOn(LIGHT_OUT, test=0):
   print "light on"
-  GPIO.output(LIGHT_OUT,True)
+  if test == 0:
+    GPIO.output(LIGHT_OUT,True)
 
-def lightOff(LIGHT_OUT):
+def lightOff(LIGHT_OUT, test=0):
   print "light off"
-  GPIO.output(LIGHT_OUT,False)
+  if test == 0:
+    GPIO.output(LIGHT_OUT,False)

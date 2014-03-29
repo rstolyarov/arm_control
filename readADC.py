@@ -42,8 +42,9 @@ def readadc(adcnum, clockpin, mosipin, misopin, cspin):
         
         adcout >>= 1       # first bit is 'null' so drop it
         return adcout
- 
-def sampleUser(servo, last_reads):
+
+
+def sampleForEMG(servo, last_reads):
 
     # 10k trim pot connected to adc #0
     tolerance = 5       # to keep from being jittery we'll only change
