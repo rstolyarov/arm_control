@@ -11,7 +11,7 @@ def incrementMotor(servo, muscle, intensity, currentPosition, test=0):
     elif muscle == "ELBOW":
       motor_id = ELBOW_OUT
     increment = intensity * MUSCLE_FACTOR
-    newPosition = currentPosition + increment
+    newPosition = currentPosition[0] + increment
     if newPosition > SERVO_MAX:
       newPosition = SERVO_MAX
     elif newPosition < SERVO_MIN:
