@@ -14,9 +14,9 @@ def control (servo):
   userInput = [0,0,0]
   heatInput = 0
   touchInput = 0
-  clawPosition = INIT_CLAW_POSITION
-  wristPosition = INIT_WRIST_POSITION
-  elbowPosition = INIT_ELBOW_POSITION
+  clawPosition = [INIT_CLAW_POSITION]
+  wristPosition = [INIT_WRIST_POSITION]
+  elbowPosition = [INIT_ELBOW_POSITION]
 
   while(True):
     userInput = sampleUser(userInput,TEST)
