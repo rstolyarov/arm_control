@@ -33,7 +33,8 @@ def sampleUser(old_reads, test=0):
 def sampleHeat(old_read, test=0):
   if test == 0:
 	raw_data = readChannel(ANALOG_TEMP_IN)
-	new_read = convertTemp(raw_data,ROUND)
+	new_read = convertTemp(raw_data)
+        print "Heat sampled:",new_read
   	return new_read
   else:
   	new_read = int(raw_input("Enter heat input."));
@@ -43,7 +44,7 @@ def sampleHeat(old_read, test=0):
 def sampleTouch(old_read, test=0):
   if test == 0:
 	raw_data = readChannel(ANALOG_TOUCH_IN)
-	new_read = convertPressure(raw_data,ROUND)
+	new_read = convertPressure(raw_data)
 	return new_read
   else:
   	new_read = int(raw_input("Enter touch input."));

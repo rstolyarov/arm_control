@@ -21,7 +21,7 @@ def control (servo):
   cont = ""
   while(cont != "n"):
     userInput = sampleUser(userInput,TEST)
-    heatInput = sampleHeat(heatInput,TEST)
+    heatInput = sampleHeat(heatInput)
     touchInput = sampleTouch(touchInput, TEST)
 
     if (heatInput > HEAT_THRESH):
