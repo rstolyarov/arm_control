@@ -9,7 +9,7 @@ from incrementMotor import *
    
 
 def control (servo):
-  lightOn(LIGHT_OUT, TEST)
+  lightOn(LIGHT_OUT)
   print "running program"
   userInput = [0,0,0]
   heatInput = 0
@@ -18,24 +18,26 @@ def control (servo):
   wristPosition = [INIT_WRIST_POSITION]
   elbowPosition = [INIT_ELBOW_POSITION]
 
-  while(True):
+  cont = ""
+  while(cont != "n"):
     userInput = sampleUser(userInput,TEST)
     heatInput = sampleHeat(heatInput,TEST)
     touchInput = sampleTouch(touchInput, TEST)
 
     if (heatInput > HEAT_THRESH):
       print "too much heat!"
-      beep(SOUND_OUT, 3, TEST)
+      beep(SOUND_OUT, 3)
     
     elbowPosition = incrementMotor(servo, "ELBOW", userInput[0], elbowPosition, TEST)
     wristPosition = incrementMotor(servo, "WRIST", userInput[1], wristPosition, TEST)
     
     if touchInput > TOUCH_THRESH and userInput[2] > 0:
       print "too much pressure!"
-      beep(SOUND_OUT, 3, TEST)
+      beep(SOUND_OUT, 1)
     else:
       clawPosition = incrementMotor(servo, "CLAW", userInput[2], clawPosition, TEST)
-  lightOff(LIGHT_OUT, TEST)
+    cont = raw_input("Shall we continue? (testing only) y/n:");
+  lightOff(LIGHT_OUT)
 
 def initServoPositions(servo, test):
   print "Initialized servo positions"
@@ -49,6 +51,7 @@ def initGPIO():
   for outpin in OUTPINS:
     print "setting up pin "+str(outpin)
     GPIO.setup(outpin, GPIO.OUT)
+    GPIO.output(outpin, False)
   for inpin in INPINS:
     print "setting up pin "+str(inpin)
     GPIO.setup(inpin, GPIO.IN)

@@ -1,3 +1,5 @@
+import RPi.GPIO as GPIO
+
 def lightOn(LIGHT_OUT, test=0):
   print "light on"
   if test == 0:

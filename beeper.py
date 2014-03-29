@@ -1,6 +1,6 @@
 import threading
 import time
-
+import RPi.GPIO as GPIO
 
 #Beeps [numBeeps] times, each beep length 0.1 seconds and separated by 0.2 seconds
 def beep(SOUND_OUT, numBeeps, test=0):
@@ -18,4 +18,3 @@ def beep(SOUND_OUT, numBeeps, test=0):
         time.sleep(0.1)
   t = threading.Thread(target=threadBeep,args=(SOUND_OUT, numBeeps, test))
   t.start()
-  t.join()
