@@ -53,9 +53,9 @@ def initGPIO():
   for outpin in OUTPINS_BCM:
     print "setting up pin "+str(outpin)
     GPIO.setup(outpin, GPIO.OUT)
-  #for inpin in INPINS:
-  #  print "setting up pin "+str(inpin)
-  #  GPIO.setup(inpin, GPIO.IN)
+  for inpin in INPINS_BCM:
+    print "setting up pin "+str(inpin)
+    GPIO.setup(inpin, GPIO.IN)
   servo = PWM.Servo()
   return servo  
 

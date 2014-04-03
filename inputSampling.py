@@ -2,7 +2,7 @@ import scipy.signal as sig
 from definitions import *
 import time
 from signalProcessing import *
-from read_data import *
+from dataReader import *
 
 def sampleUser(old_reads, test=0):
   if test == 0:
