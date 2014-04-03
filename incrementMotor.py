@@ -5,11 +5,11 @@ def incrementMotor(servo, muscle, intensity, currentPosition, test=0):
   def threadIncrementMotor(servo, muscle, intensity, currentPosition, test=0):
     motor_id = 0
     if muscle == "CLAW":
-      motor_id = CLAW_OUT
+      motor_id = CLAW_OUT_BCM
     elif muscle == "WRIST":
-      motor_id = WRIST_OUT
+      motor_id = WRIST_OUT_BCM
     elif muscle == "ELBOW":
-      motor_id = ELBOW_OUT
+      motor_id = ELBOW_OUT_BCM
     increment = intensity * MUSCLE_FACTOR
     newPosition = currentPosition[0] + increment
     if newPosition > SERVO_MAX:

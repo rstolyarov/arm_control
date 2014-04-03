@@ -23,9 +23,9 @@ def sampleUser(old_reads, test=0):
 	print "User sampled:",new_reads
   	return new_reads
   else:
-  	a = int(raw_input("Enter claw intensity."));
-  	b = int(raw_input("Enter wrist intensity."));
-  	c = int(raw_input("Enter elbow intensity."));
+  	a = int(raw_input("Enter wrist intensity."));
+  	b = int(raw_input("Enter elbow intensity."));
+  	c = int(raw_input("Enter claw intensity."));
   	new_reads = [a,b,c]
   	print "User sampled:",new_reads
   	return new_reads
@@ -34,7 +34,7 @@ def sampleHeat(old_read, test=0):
   if test == 0:
 	raw_data = readChannel(ANALOG_TEMP_IN)
 	new_read = convertTemp(raw_data)
-        print "Heat sampled:",new_read
+        print "Heat sampled:",new_read,"(raw data=",raw_data
   	return new_read
   else:
   	new_read = int(raw_input("Enter heat input."));
@@ -45,6 +45,7 @@ def sampleTouch(old_read, test=0):
   if test == 0:
 	raw_data = readChannel(ANALOG_TOUCH_IN)
 	new_read = convertPressure(raw_data)
+        print "Touch sampled:",new_read,"(raw data=",raw_data
 	return new_read
   else:
   	new_read = int(raw_input("Enter touch input."));

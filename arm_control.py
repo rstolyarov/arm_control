@@ -9,7 +9,7 @@ from incrementMotor import *
    
 
 def control (servo):
-  lightOn(LIGHT_OUT)
+  lightOn(LIGHT_OUT_BCM)
   print "running program"
   userInput = [0,0,0]
   heatInput = 0
@@ -22,42 +22,43 @@ def control (servo):
   while(cont != "n"):
     userInput = sampleUser(userInput,TEST)
     heatInput = sampleHeat(heatInput)
-    touchInput = sampleTouch(touchInput, TEST)
+    touchInput = sampleTouch(touchInput)
 
     if (heatInput > HEAT_THRESH):
       print "too much heat!"
-      beep(SOUND_OUT, 3)
+      beep(SOUND_OUT_BCM, 3)
     
-    elbowPosition = incrementMotor(servo, "ELBOW", userInput[0], elbowPosition, TEST)
-    wristPosition = incrementMotor(servo, "WRIST", userInput[1], wristPosition, TEST)
+    elbowPosition = incrementMotor(servo, "WRIST", userInput[0], elbowPosition, TEST)
+    wristPosition = incrementMotor(servo, "ELBOW", userInput[1], wristPosition, TEST)
     
     if touchInput > TOUCH_THRESH and userInput[2] > 0:
       print "too much pressure!"
-      beep(SOUND_OUT, 1)
+      beep(SOUND_OUT_BCM, 1)
     else:
-      clawPosition = incrementMotor(servo, "CLAW", userInput[2], clawPosition, TEST)
+      clawPosition = incrementMotor(servo, "CLAW", userInput[2], clawPosition)
     cont = raw_input("Shall we continue? (testing only) y/n:");
-  lightOff(LIGHT_OUT)
+  lightOff(LIGHT_OUT_BCM)
+  GPIO.cleanup()
 
-def initServoPositions(servo, test):
-  print "Initialized servo positions"
+def initServoPositions(servo, test=0):
+  print "Initializing servo positions"
   if test == 0:
-    servo.set_servo(CLAW_OUT, INIT_CLAW_POSITION)
-    servo.set_servo(WRIST_OUT, INIT_WRIST_POSITION)
-    servo.set_servo(ELBOW_OUT, INIT_ELBOW_POSITION)
+    servo.set_servo(CLAW_OUT_BCM, INIT_CLAW_POSITION)
+    servo.set_servo(WRIST_OUT_BCM, INIT_WRIST_POSITION)
+    servo.set_servo(ELBOW_OUT_BCM, INIT_ELBOW_POSITION)
 
 def initGPIO():
-  GPIO.setmode(GPIO.BOARD)
-  for outpin in OUTPINS:
+  GPIO.cleanup()
+  GPIO.setmode(GPIO.BCM)
+  for outpin in OUTPINS_BCM:
     print "setting up pin "+str(outpin)
     GPIO.setup(outpin, GPIO.OUT)
-    GPIO.output(outpin, False)
-  for inpin in INPINS:
-    print "setting up pin "+str(inpin)
-    GPIO.setup(inpin, GPIO.IN)
+  #for inpin in INPINS:
+  #  print "setting up pin "+str(inpin)
+  #  GPIO.setup(inpin, GPIO.IN)
   servo = PWM.Servo()
   return servo  
 
 servo = initGPIO()
-initServoPositions(servo, TEST)
+initServoPositions(servo)
 control(servo)

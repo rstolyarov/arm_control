@@ -40,6 +40,9 @@ def convertVolts(data):
 def convertTemp(data):
   return (data - 25)/12.4
 
+def convertPressure(data):
+  return data * 25/4095
+
 def readChannel(channel):
   spi = MCP3208(0)
   read = 0
