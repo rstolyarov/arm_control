@@ -6,21 +6,21 @@ from dataReader import *
 
 def sampleUser(old_reads, test=0):
   if test == 0:
-	claw1 = [0] * SAMPLE_NUMBER
-	claw2 = [0] * SAMPLE_NUMBER
-	wrist1 = [0] * SAMPLE_NUMBER
-	wrist2 = [0] * SAMPLE_NUMBER
-	elbow1 = [0] * SAMPLE_NUMBER
-	elbow2 = [0] * SAMPLE_NUMBER
+	  claw1 = [0] * SAMPLE_NUMBER
+	  claw2 = [0] * SAMPLE_NUMBER
+	  wrist1 = [0] * SAMPLE_NUMBER
+	  wrist2 = [0] * SAMPLE_NUMBER
+	  elbow1 = [0] * SAMPLE_NUMBER
+	  elbow2 = [0] * SAMPLE_NUMBER
 
-	emg_vectors = [claw1, claw2, wrist1, wrist2, elbow1, elbow2]
-	for i in range(sample_number):
-	  for j in range(6):
-		emg_vectors[i] = readChannel(i);
-	  time.sleep(SAMPLE_PERIOD)
+	  emg_vectors = [wrist1, wrist2, elbow1, elbow2, claw1, claw2]
+	  for i in range(SAMPLE_NUMBER):
+	    for j in range(6):
+		    emg_vectors[i] = readChannel(i);
+	    time.sleep(SAMPLE_PERIOD)
 
-	new_reads = processSignal(emg_vectors)	
-	print "User sampled:",new_reads
+	  new_reads = processSignal(emg_vectors)
+	  print "User sampled (WRIST,ELBOW,CLAW):",new_reads
   	return new_reads
   else:
   	a = int(raw_input("Enter wrist intensity."));
