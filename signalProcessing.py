@@ -2,6 +2,7 @@ from definitions import *
 from scipy.signal import *
 import numpy
 import math
+import random
 
 def processDirections(speeds, diff=False):
 	speeds3 = [0]*3
@@ -67,13 +68,16 @@ def process(signal):
 
 	return speed
 
-def processSignal(emg_vectors):
+def processSignal(emg_vectors, test=0):
+    if test==0:
 	speeds6 = [0]*6
 	for i in range(6):
 		speeds6[i] = process(emg_vectors[i])
 	speeds3 = processDirections(speeds6)
 	
 	return speeds3
+    else:
+        return [test,test,test]
 
 def processSignalTesting(emg_vectors):
 	return [0,1,0,0,3,0]

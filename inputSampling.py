@@ -4,7 +4,7 @@ import time
 from signalProcessing import *
 from dataReader import *
 
-def sampleUser(old_reads, test=0):
+def sampleUser(old_reads, test=0, supertest=0):
   if test == 0:
 	  claw1 = [0] * SAMPLE_NUMBER
 	  claw2 = [0] * SAMPLE_NUMBER
@@ -18,17 +18,16 @@ def sampleUser(old_reads, test=0):
 	    for j in range(6):
 		    emg_vectors[i] = readChannel(i);
 	    time.sleep(SAMPLE_PERIOD)
-
-	  new_reads = processSignal(emg_vectors)
+          new_reads = processSignal(emg_vectors, supertest)
 	  print "User sampled (WRIST,ELBOW,CLAW):",new_reads
-  	return new_reads
+          return new_reads
   else:
-  	a = int(raw_input("Enter wrist intensity."));
-  	b = int(raw_input("Enter elbow intensity."));
-  	c = int(raw_input("Enter claw intensity."));
-  	new_reads = [a,b,c]
-  	print "User sampled:",new_reads
-  	return new_reads
+    a = int(raw_input("Enter wrist intensity."));
+    b = int(raw_input("Enter elbow intensity."));
+    c = int(raw_input("Enter claw intensity."));
+    new_reads = [a,b,c]
+    print "User sampled:",new_reads
+    return new_reads
 
 def sampleHeat(old_read, test=0):
   if test == 0:
