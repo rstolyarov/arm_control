@@ -7,6 +7,7 @@ from inputSampling import *
 from beeper import *
 from incrementMotor import *
 from random import randint
+import sys
 
 def control (servo, demo=0):
       
@@ -16,17 +17,22 @@ def control (servo, demo=0):
   elbowPosition = [INIT_ELBOW_POSITION]
   if demo == 1:
     print "running demo (no interfacing with user)"
+    sys.stdout = sys.stderr
     count = 0
     move=[1,1,1]
-    while True:
+    while count < 5000:
       count = count+1
       if count % 1000 == 0:
-        count = 0
-        move = [randint(-3,3),randint(-3,3),randint(-3,3)]
+        #move = [randint(-3,3),randint(-3,3),randint(-3,3)]
+        move[0] = move[0]*-1
+        move[1] = move[1]*-1
+        move[2] = move[2]*-1
       elbowPosition = incrementMotor(servo, "WRIST", move[0], elbowPosition)
       wristPosition = incrementMotor(servo, "ELBOW", move[1], wristPosition)
       clawPosition = incrementMotor(servo, "CLAW", move[2], clawPosition)
+    return
   print "running full program (includes user interfacing)"
+  sys.stdout = sys.stderr
   userInput = [0,0,0]
   heatInput = 0
   touchInput = 0 
@@ -79,4 +85,4 @@ def initGPIO():
 
 servo = initGPIO()
 initServoPositions(servo)
-control(servo)
+control(servo, DEMO)
