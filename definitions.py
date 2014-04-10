@@ -23,8 +23,8 @@ SPIMOSI = 10
 SPICLK = 11
 
 #Sensory thresholds
-HEAT_THRESH = 200
-TOUCH_THRESH = 25
+HEAT_THRESH = 150 #Fahrenheit
+TOUCH_THRESH = 15 #pounds
 
 #Muscle indexing information
 MUSCLE_FACTOR = 150 
@@ -37,7 +37,7 @@ SAMPLE_NUMBER = SAMPLE_FREQUENCY * SAMPLE_WINDOW
 SAMPLE_PERIOD = 1/SAMPLE_FREQUENCY 
 OMEGA = 0.1
 PI = 3.1415926
-OMEGA_O = 2*PI*SAMPLE_WINDOW*SAMPLE_PERIOD #discrete-time notch frequency (in rad) (60Hz)
+OMEGA_O = 2*PI*SAMPLE_WINDOW*SAMPLE_PERIOD
 EMG_THRESH1 = 1000
 EMG_THRESH2 = 2000
 EMG_THRESH3 = 3000
@@ -49,8 +49,9 @@ ANALOG_ELBOW_IN = [4,5]
 ANALOG_TEMP_IN = 6
 ANALOG_TOUCH_IN = 7
 
-#Testing flag
+#Flags
 TEST = 1
+DEMO = 1
 
 #Display info
 HEADINGS = ["-- EMG Readings --", "EMG1: ", "EMG2: ", "EMG3: ", "EMG4 ", "EMG5: ", "EMG6: ", "-- Sensor Readings --", "Touch: ", "Heat: ", "-- Motor Positions --", "Claw: ", "Wrist: ", "Elbow: "]
