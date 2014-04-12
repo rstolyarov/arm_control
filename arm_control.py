@@ -5,7 +5,7 @@ from pulseDegree import *
 from indicatorLight import *
 from inputSampling import *
 from beeper import *
-from incrementMotor import *
+from incrementMotorP import *
 from random import randint
 import sys
 
@@ -19,17 +19,15 @@ def control (servo, demo=0):
     print "running demo (no interfacing with user)"
     sys.stdout = sys.stderr
     count = 0
-    move=[1,1,1]
+    move=[3,3,3]
     while count < 5000:
       count = count+1
-      if count % 1000 == 0:
-        #move = [randint(-3,3),randint(-3,3),randint(-3,3)]
-        move[0] = move[0]*-1
-        move[1] = move[1]*-1
-        move[2] = move[2]*-1
-      elbowPosition = incrementMotor(servo, "WRIST", move[0], elbowPosition)
-      wristPosition = incrementMotor(servo, "ELBOW", move[1], wristPosition)
-      clawPosition = incrementMotor(servo, "CLAW", move[2], clawPosition)
+      if count % 300 == 0:
+        move = [randint(-3,3),randint(-3,3),randint(-3,3)]
+        print "move:",move
+      wristPosition = incrementMotor(servo, "WRIST", move[0], wristPosition)
+      elbowPosition = incrementMotor(servo, "ELBOW", move[1], elbowPosition)
+      incrementClawMotor(servo, move[2], TEST)
     return
   print "running full program (includes user interfacing)"
   sys.stdout = sys.stderr
@@ -51,14 +49,14 @@ def control (servo, demo=0):
       print "too much heat!"
       beep(SOUND_OUT_BCM, 3)
     
-    elbowPosition = incrementMotor(servo, "WRIST", userInput[0], elbowPosition)
-    wristPosition = incrementMotor(servo, "ELBOW", userInput[1], wristPosition)
+    wristPosition = incrementMotor(servo, "WRIST", userInput[0], wristPosition)
+    elbowPosition = incrementMotor(servo, "ELBOW", userInput[1], elbowPosition)
     
     if touchInput > TOUCH_THRESH and userInput[2] > 0:
       print "too much pressure!"
       beep(SOUND_OUT_BCM, 1)
     else:
-      clawPosition = incrementMotor(servo, "CLAW", userInput[2], clawPosition)
+      incrementClawMotor(servo, userInput[2], TEST)
     cycleCount=cycleCount+1
     #cont = raw_input("Shall we continue? (testing only) y/n:");
   lightOff(LIGHT_OUT_BCM)
@@ -69,7 +67,7 @@ def initServoPositions(servo, test=0):
   if test == 0:
     servo.set_servo(CLAW_OUT_BCM, INIT_CLAW_POSITION)
     servo.set_servo(WRIST_OUT_BCM, INIT_WRIST_POSITION)
-    servo.set_servo(ELBOW_OUT_BCM, INIT_ELBOW_POSITION)
+    initializeClawMotor(servo)
 
 def initGPIO():
   GPIO.cleanup()
@@ -83,6 +81,9 @@ def initGPIO():
   servo = PWM.Servo()
   return servo  
 
+
+
 servo = initGPIO()
 initServoPositions(servo)
-control(servo, DEMO)
+time.sleep(5)
+control(servo, int(sys.argv[1]))
