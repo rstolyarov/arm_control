@@ -8,29 +8,28 @@ from beeper import *
 from incrementMotorP import *
 from random import randint
 import sys
-import arm_display
+#import arm_display
 
 def control (servo, demo=0):
       
   lightOn(LIGHT_OUT_BCM)
-  clawPosition = [INIT_CLAW_POSITION]
-  wristPosition = [INIT_WRIST_POSITION]
-  elbowPosition = [INIT_ELBOW_POSITION]
+  wristPosition = INIT_WRIST_POSITION
+  elbowPosition = INIT_ELBOW_POSITION
   if demo == 1:
     print "running demo (no interfacing with user)"
     count = 0
     move=[3,3,3]
     while count < 5000:
       count = count+1
-      if count % 300 == 0:
+      print count
+      if count % 100 == 0:
         move = [randint(-3,3),randint(-3,3),randint(-3,3)]
-        print "move:",move
+      print "move:",repr(move)
       wristPosition = incrementMotor(servo, "WRIST", move[0], wristPosition)
       elbowPosition = incrementMotor(servo, "ELBOW", move[1], elbowPosition)
-      incrementClawMotor(servo, move[2], TEST)
+      incrementClawMotor(servo, move[2])
     return
   print "running full program (includes user interfacing)"
-  sys.stdout = sys.stderr
   userInput = [0,0,0]
   heatInput = 0
   touchInput = 0 
@@ -54,9 +53,10 @@ def control (servo, demo=0):
     
     if touchInput > TOUCH_THRESH and userInput[2] > 0:
       print "too much pressure!"
+      servo.set_servo(CLAW_OUT_BCM, CLAW_BRAKE)
       beep(SOUND_OUT_BCM, 1)
     else:
-      incrementClawMotor(servo, userInput[2], TEST)
+      incrementClawMotor(servo, userInput[2])
     cycleCount=cycleCount+1
     #cont = raw_input("Shall we continue? (testing only) y/n:");
   lightOff(LIGHT_OUT_BCM)
