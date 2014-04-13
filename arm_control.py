@@ -7,10 +7,10 @@ from inputSampling import *
 from beeper import *
 from incrementMotorP import *
 from random import randint
+from Tkinter import *
 import sys
-from arm_display import *
 
-def control (servo, demo=0):
+def control (servo,canvas, sigs, motors, demo=0):
       
   lightOn(LIGHT_OUT_BCM)
   wristPosition = INIT_WRIST_POSITION
@@ -28,7 +28,7 @@ def control (servo, demo=0):
       wristPosition = incrementMotor(servo, "WRIST", move[0], wristPosition)
       elbowPosition = incrementMotor(servo, "ELBOW", move[1], elbowPosition)
       incrementClawMotor(servo, move[2])
-      values = ["DEMO","DEMO","DEMO","DEMO","DEMO","DEMO","DEMO","DEMO",wristPosition, elbowPosition, "DEMO"]
+      values = [1,1,1,1,1,1,1,1,1,1,1]
       sigs, motors = renderNewValues(canvas, values, sigs, motors)
     return
   print "running full program (includes user interfacing)"
@@ -84,10 +84,48 @@ def initGPIO():
   return servo  
 
 
-servo = initGPIO()
-initServoPositions(servo)
-sigs, motors = initializeGUI()
-time.sleep(3)
+def main(canvas, sigs, motors):
+  values = [0]*11
+  sigs,motors = renderNewValues(canvas, values, sigs, motors)
+  servo = initGPIO()
+  initServoPositions(servo)
+  time.sleep(3)
+  control(servo, canvas, sigs, motors, int(sys.argv[1]))
 
-control(servo, sigs, motors, int(sys.argv[1]))
+def renderNewValues(canvas,values, sigs,motors):
+	k = 130
+	for i in sigs:
+		if i != None:
+			canvas.delete(i)
+			print "i"
+	for j in motors:
+		if j != None:
+			canvas.delete(j)
+			print "j"
+	for i in range(6):
+		sigs[i] = canvas.create_text(k, VERTICAL_POSITIONS[i+1], text=values[i])
+	for i in range(6,8):
+		sigs[i] = canvas.create_text(k, VERTICAL_POSITIONS[i+2], text=values[i])
+	for i in range(3):
+		motors[i] = canvas.create_text(k, VERTICAL_POSITIONS[i+11], text=values[i+8])
 
+	return sigs, motors
+
+def renderHeadings(canvas):
+	for i in range(14):
+		canvas.create_text(100,VERTICAL_POSITIONS[i],text=HEADINGS[i])
+	return canvas
+
+root = Tk()
+canvas = Canvas(root, width=300, height=500)
+canvas.pack()
+
+sigs = [None]*8
+motors = [None]*3
+
+print "rendering headings"
+canvas = renderHeadings(canvas)
+canvas.after(1,main, canvas, sigs, motors)
+root.mainloop()
+
+initializeGUI()
