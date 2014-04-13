@@ -64,5 +64,6 @@ def initializeGUI():
 	canvas = renderHeadings(canvas)
 	canvas.after(1, tick, canvas, sigs, motors)
 	root.mainloop()
+	return sigs, motors
 
 initializeGUI()

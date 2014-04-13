@@ -8,7 +8,7 @@ from beeper import *
 from incrementMotorP import *
 from random import randint
 import sys
-#import arm_display
+from arm_display import *
 
 def control (servo, demo=0):
       
@@ -28,6 +28,8 @@ def control (servo, demo=0):
       wristPosition = incrementMotor(servo, "WRIST", move[0], wristPosition)
       elbowPosition = incrementMotor(servo, "ELBOW", move[1], elbowPosition)
       incrementClawMotor(servo, move[2])
+      values = ["DEMO","DEMO","DEMO","DEMO","DEMO","DEMO","DEMO","DEMO",wristPosition, elbowPosition, "DEMO"]
+      sigs, motors = renderNewValues(canvas, values, sigs, motors)
     return
   print "running full program (includes user interfacing)"
   userInput = [0,0,0]
@@ -82,8 +84,10 @@ def initGPIO():
   return servo  
 
 
-
 servo = initGPIO()
 initServoPositions(servo)
-time.sleep(5)
-control(servo, int(sys.argv[1]))
+sigs, motors = initializeGUI()
+time.sleep(3)
+
+control(servo, sigs, motors, int(sys.argv[1]))
+
