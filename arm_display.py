@@ -44,18 +44,21 @@ def renderHeadings(canvas):
 		canvas.create_text(100,VERTICALPOSITIONS[i],text=HEADINGS[i])
 	return canvas
 
-root = Tk()
-canvas = Canvas(root, width=200, height=400)
-canvas.pack()
+def initializeGUI():
+	root = Tk()
+	canvas = Canvas(root, width=200, height=400)
+	canvas.pack()
 
-sigs = [None]*8
-motors = [None]*3
+	sigs = [None]*8
+	motors = [None]*3
 
-print "creating Socket"
-conn = createSocket()
-print "rendering headings"
-canvas = renderHeadings(canvas)
-print "hello"
-time.sleep(10)
-canvas.after(1, tick, canvas, conn, sigs, motors)
-root.mainloop()
+	#print "creating Socket"
+	#conn = createSocket()
+	print "rendering headings"
+	canvas = renderHeadings(canvas)
+	print "hello"
+	time.sleep(10)
+	canvas.after(1, tick, canvas, conn, sigs, motors)
+	root.mainloop()
+
+initializeGUI()

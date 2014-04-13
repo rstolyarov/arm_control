@@ -8,6 +8,7 @@ from beeper import *
 from incrementMotorP import *
 from random import randint
 import sys
+import arm_display
 
 def control (servo, demo=0):
       
