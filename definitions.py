@@ -69,6 +69,6 @@ DEMO = 1
 
 #Display info
 HEADINGS = ["-- EMG Readings --", "EMG1: ", "EMG2: ", "EMG3: ", "EMG4 ", "EMG5: ", "EMG6: ", "-- Sensor Readings --", "Touch: ", "Heat: ", "-- Motor Positions --", "Claw: ", "Wrist: ", "Elbow: "]
-VERTICALPOSITIONS = [10,25,40,55,70,85,100,130,145,160,190,205,220,235]
+VERTICAL_POSITIONS = [10,25,40,55,70,85,100,130,145,160,190,205,220,235]
 WARNINGS = ["Too much heat!", "Too much pressure!", "OKAY"]
 
