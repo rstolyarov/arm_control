@@ -44,6 +44,7 @@ def initializeClawMotor(servo,test=0):
     time.sleep(1)
     servo.set_servo(motor_id, CLAW_CLOSE)
     time.sleep(CLAW_TIME_TO_NEUTRAL)
+    servo.set_servo(motor_id, CLAW_NEUTRAL)
 
 def incrementClawMotor(servo,intensity,test=0):
     if test == 1:

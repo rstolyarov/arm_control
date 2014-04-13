@@ -17,7 +17,6 @@ def control (servo, demo=0):
   elbowPosition = [INIT_ELBOW_POSITION]
   if demo == 1:
     print "running demo (no interfacing with user)"
-    sys.stdout = sys.stderr
     count = 0
     move=[3,3,3]
     while count < 5000:
@@ -65,7 +64,7 @@ def control (servo, demo=0):
 def initServoPositions(servo, test=0):
   print "Initializing servo positions"
   if test == 0:
-    servo.set_servo(CLAW_OUT_BCM, INIT_CLAW_POSITION)
+    servo.set_servo(ELBOW_OUT_BCM, INIT_ELBOW_POSITION)
     servo.set_servo(WRIST_OUT_BCM, INIT_WRIST_POSITION)
     initializeClawMotor(servo)
 
