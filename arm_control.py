@@ -10,27 +10,25 @@ from random import randint
 from Tkinter import *
 import sys
 
-def control (servo,canvas, sigs, motors, demo=0):
+def demo (servo, canvas, sigs, motors, wristPosition, elbowPosition, i, move):
+  lightOn(LIGHT_OUT_BCM)
+  print "running demo (no interfacing with user)"
+  print i
+  if i % 100 == 0:
+      print "CHANGED MOVE"
+      move = [randint(-3,3),randint(-3,3),randint(-3,3)]
+  i=i+1
+  print "move:",repr(move)
+  wristPosition = incrementMotor(servo, "WRIST", move[0], wristPosition)
+  elbowPosition = incrementMotor(servo, "ELBOW", move[1], elbowPosition)
+  incrementClawMotor(servo, move[2])
+  values = [1,1,1,1,1,1,1,1,wristPosition,elbowPosition,1]
+  sigs, motors = renderNewValues(canvas, values, sigs, motors)
+  canvas.after(1,demo,servo, canvas,sigs,motors,wristPosition, elbowPosition, i, move)
+
+def control (servo,canvas, sigs, motors, wristPosition, elbowPosition, i, demo=0):
       
   lightOn(LIGHT_OUT_BCM)
-  wristPosition = INIT_WRIST_POSITION
-  elbowPosition = INIT_ELBOW_POSITION
-  if demo == 1:
-    print "running demo (no interfacing with user)"
-    count = 0
-    move=[3,3,3]
-    while count < 5000:
-      count = count+1
-      print count
-      if count % 100 == 0:
-        move = [randint(-3,3),randint(-3,3),randint(-3,3)]
-      print "move:",repr(move)
-      wristPosition = incrementMotor(servo, "WRIST", move[0], wristPosition)
-      elbowPosition = incrementMotor(servo, "ELBOW", move[1], elbowPosition)
-      incrementClawMotor(servo, move[2])
-      values = [1,1,1,1,1,1,1,1,1,1,1]
-      sigs, motors = renderNewValues(canvas, values, sigs, motors)
-    return
   print "running full program (includes user interfacing)"
   userInput = [0,0,0]
   heatInput = 0
@@ -90,18 +88,24 @@ def main(canvas, sigs, motors):
   servo = initGPIO()
   initServoPositions(servo)
   time.sleep(3)
-  control(servo, canvas, sigs, motors, int(sys.argv[1]))
+  wristPosition = INIT_WRIST_POSITION
+  elbowPosition = INIT_ELBOW_POSITION
+  lightOn(LIGHT_OUT_BCM)
+  i = 0
+  move = [3,3,3]
+  if int(sys.argv[1]) == 1:	
+    canvas.after(1,demo, servo, canvas, sigs, motors, wristPosition, elbowPosition, i, move)
+  else:
+    canvas.after(1,control,servo,canvas,sigs,motors,wristPosition,elbowPosition, i)
 
 def renderNewValues(canvas,values, sigs,motors):
 	k = 130
 	for i in sigs:
 		if i != None:
 			canvas.delete(i)
-			print "i"
 	for j in motors:
 		if j != None:
 			canvas.delete(j)
-			print "j"
 	for i in range(6):
 		sigs[i] = canvas.create_text(k, VERTICAL_POSITIONS[i+1], text=values[i])
 	for i in range(6,8):
@@ -127,5 +131,3 @@ print "rendering headings"
 canvas = renderHeadings(canvas)
 canvas.after(1,main, canvas, sigs, motors)
 root.mainloop()
-
-initializeGUI()

@@ -2,10 +2,6 @@ from Tkinter import *
 from definitions import *
 import socket
 import time
-<<<<<<< HEAD
-import threading
-
-=======
 from random import randint
 
 def tick(canvas, sigs, motors):
@@ -13,12 +9,24 @@ def tick(canvas, sigs, motors):
     values = [randint(0,5)]*11
     sigs, motors = renderNewValues(canvas, values, sigs, motors)
     canvas.after(1, tick, canvas, sigs, motors)
->>>>>>> 8814d77e0725e4a70eea0692ed96420a572e814b
 
+# def createSocket():
+# 	HOST = ''                 # Symbolic name meaning the local host
+# 	PORT = 50001              # Arbitrary non-privileged port
+# 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# 	s.bind((HOST, PORT))
+# 	s.listen(1)
+# 	conn, addr = s.accept()
+# 	return conn
 
+# def getValues(conn):
+# 	values = [0]*11
+# 	data = conn.recv(1024)
+# 	data = data.split(',')
+# 	for i in range(11):
+# 		values[i] = data[i]
+# 	return values
 
-<<<<<<< HEAD
-=======
 def renderNewValues(canvas,values, sigs,motors):
 	k = 130
 	for i in sigs:
@@ -51,12 +59,9 @@ def initializeGUI():
 	sigs = [None]*8
 	motors = [None]*3
 
-	#print "creating Socket"
-	#conn = createSocket()
 	print "rendering headings"
 	canvas = renderHeadings(canvas)
 	canvas.after(1, tick, canvas, sigs, motors)
 	root.mainloop()
 
 initializeGUI()
->>>>>>> 8814d77e0725e4a70eea0692ed96420a572e814b
