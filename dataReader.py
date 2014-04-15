@@ -1,11 +1,12 @@
-#!/usr/bin/env python
 import time
 import os
 import RPi.GPIO as GPIO
 from definitions import *
+from random import *
 
-def readChannel(adcnum):
-
+def readChannel(adcnum, test=0):
+        if test == 1:
+            return randint(0,4095);
         if ((adcnum > 7) or (adcnum < 0)):
                 return -1
         GPIO.output(SPICS, True)
