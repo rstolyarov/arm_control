@@ -41,8 +41,8 @@ MUSCLE_FACTOR = 30
 MUSCLES = ["WRIST","ELBOW","CLAW"]
 
 #Signal processing constants
-SAMPLE_FREQUENCY = 2000 #Hz
-SAMPLE_WINDOW = 0.03 #seconds
+SAMPLE_FREQUENCY = 2000 
+SAMPLE_WINDOW = 0.03 
 SAMPLE_NUMBER = SAMPLE_FREQUENCY * SAMPLE_WINDOW
 SAMPLE_PERIOD = 1/SAMPLE_FREQUENCY 
 OMEGA = 0.1
@@ -65,6 +65,9 @@ DEMO = 1
 
 #Display info
 HEADINGS = ["-- EMG Readings --", "EMG1: ", "EMG2: ", "EMG3: ", "EMG4 ", "EMG5: ", "EMG6: ", "-- Sensor Readings --", "Touch: ", "Heat: ", "-- Motor Positions --", "Claw: ", "Wrist: ", "Elbow: "]
-VERTICAL_POSITIONS = [10,25,40,55,70,85,100,130,145,160,190,205,220,235]
+TITLE_POSITION_V = 10
+TITLE_POSITION_H = 100
+VERTICAL_POSITIONS = [25,40,55,70,85,100,115,145,160,175,205,220,235,250]
 WARNINGS = ["Too much heat!", "Too much pressure!", "OKAY"]
+LEFT_MARGIN = 150
 
